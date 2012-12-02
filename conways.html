@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Conway's Game of Life</title>
+</head>
+<body> <div align="center">
+<canvas id = "gol" style = "border:2px solid black"></canvas></div>
+<script>
+var x=140;         
+var gol = document.getElementById("gol")
+gol.width=500
+gol.height=500
+var context=gol.getContext("2d")
+var a=new Array(x)
+for(var i=0;i<x;i++)
+	a[i]=new Array(x) 
+var m,n;
+for(var j=0;j<1200;j++) 
+{
+	m=parseInt(Math.random()*x);
+	n=parseInt(Math.random()*x);
+	a[m][n]=1;
+}
+animate();
+setInterval("game()",100);
+function count(i,j) 
+{
+	var s=0;
+	if(a[i]!=undefined) 
+	{
+		if(a[i][j-1]==1) 
+			s++;
+		if(a[i][j+1]==1) 
+			s++;
+	}
+	if(a[i+1]!=undefined) 
+	{
+		if(a[i+1][j]==1) 
+			s++;
+		if(a[i+1][j-1]==1) 
+			s++;
+		if(a[i+1][j+1]==1) 
+			s++;
+	}
+	if(a[i-1]!=undefined) 
+	{
+		if(a[i-1][j]==1) 
+			s++;
+		if(a[i-1][j-1]==1) 
+			s++;
+		if(a[i-1][j+1]==1) 
+			s++;
+	}
+return s;
+}
+function game()
+{
+	var neighbours=0
+	for(i=0;i<x;i++)
+	{
+		for(j=0;j<x;j++) 
+		{
+			neighbours=count(i,j)
+			if(neighbours<2) 
+				a[i][j]=0
+			if(neighbours>3) 
+				a[i][j]=0
+			if(neighbours===3) 
+				a[i][j]=1
+		}
+	} animate(); 
+}
+function animate()
+{
+	for (i=0;i<x;i++) 
+	{
+		for(j=0;j<x;j++)
+		{
+			if(a[i][j]==1) 
+			{
+				context.fillStyle='red';
+			}
+			else 
+			{
+				context.fillStyle='blue';
+			}
+		context.beginPath();
+		context.rect(j*4,i*4,4,4);
+		context.closePath();
+		context.fill();
+		}
+	}
+}
+</script>
+</body>
+</html>
